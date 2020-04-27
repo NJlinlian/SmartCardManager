@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/Style.qml</file>
+        <file>qml/qmldir</file>
+        <file>qml/pic/icon-CardInfo.svg</file>
+        <file>qml/pic/icon-CardInfo-active.svg</file>
+        <file>qml/pic/icon-MultisigAddr.svg</file>
+        <file>qml/pic/icon-MultisigAddr-active.svg</file>
+        <file>qml/controls/CustomComboBox.qml</file>
+        <file>qml/controls/SFLabel.qml</file>
+        <file>qml/controls/ContextMenu.qml</file>
+        <file>qml/controls/SFText.qml</file>
+        <file>qml/pic/icon-down.svg</file>
+        <file>qml/controls/SvgImage.qml</file>
+        <file>qml/CardInfo.qml</file>
+        <file>qml/MultisigAddr.qml</file>
+        <file>qml/controls/CustomButton.qml</file>
+        <file>qml/TransferBtc.qml</file>
+        <file>qml/controls/CommonDialog.qml</file>
+        <file>qml/Broadcast.qml</file>
+        <file>qml/AddMultisig.qml</file>
+        <file>qml/MultisigTransfer.qml</file>
+        <file>qml/SignMultisigTrx.qml</file>
+    </qresource>
+</RCC>
