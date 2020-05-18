@@ -31,6 +31,7 @@ Window {
         console.log(Style.control_text)
         console.log($guiData.objectName)
         console.log($guiData.btcUrl)
+        updatePage(0)
     }
 
     BitcoinUtil {
