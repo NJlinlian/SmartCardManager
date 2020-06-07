@@ -27,7 +27,7 @@ QString EthereumUtil::pubkeyToAddress(QString _pubkey)
 QString EthereumUtil::transfer(QString toAddress, QString amount, QString gasLimit, QString gasPrice, QString data, QString nonce)
 {
     dev::eth::TransactionSkeleton ret;
-    //ret.from = jsToAddress("0x085aa94b764316d5e608335d13d926c6c6911e56");
+//    ret.from = dev::jsToAddress("0x2b19fc37698adf40711c5595450eea8f05b0e86e");
     if(!toAddress.isEmpty())
     {
         ret.to = dev::jsToAddress(toAddress.toStdString());
@@ -37,7 +37,7 @@ QString EthereumUtil::transfer(QString toAddress, QString amount, QString gasLim
     {
         ret.creation = true;
     }
-
+qDebug() << "EthereumUtil::transfer" << toAddress << amount << gasLimit << gasPrice << data << nonce;
     ret.value = dev::jsToU256(amount.toStdString());
     ret.gas = dev::jsToU256(gasLimit.toStdString());
     ret.gasPrice = dev::jsToU256(gasPrice.toStdString());//1GWei
@@ -46,6 +46,7 @@ QString EthereumUtil::transfer(QString toAddress, QString amount, QString gasLim
 
     dev::eth::TransactionBase trx_base(ret);
     dev::h256 without_sign = trx_base.sha3(dev::eth::IncludeSignature::WithoutSignature);
+    qDebug() << "EthereumUtil::transfer" << QString::fromStdString( without_sign.hex());
 
     QString sigHex = ethSign(QString::fromStdString( without_sign.hex()));
     qDebug() << "eth signature" << sigHex;
@@ -62,18 +63,18 @@ QString EthereumUtil::transfer(QString toAddress, QString amount, QString gasLim
 
 QString EthereumUtil::ethSign(QString data)
 {
-    QByteArray pubKey = GUIData::getInstance()->sc->readUncompressedPubKey();
-    pubKey = pubKey.mid(1);
-    dev::h512 pub(pubKey.toHex().toStdString());
-
+    QByteArray pubKeyHex = GUIData::getInstance()->scView->getUncompressedPubKey();
+    pubKeyHex = pubKeyHex.mid(2);   // 本来需要去掉第一个字节，转成了hex形式则需要去掉头两位
+    dev::h512 pub(pubKeyHex.toStdString());
     bool success = false;
-    while(1)
+    int sigLimit = 5; // 据说eth签名有概率，失败了就多签几次
+    while(sigLimit > 0)
     {
-        int rt = GUIData::getInstance()->sc->signTrxHash(data);
-        qDebug() << "11111111111111 " << rt;
+        sigLimit--;
+        int rt = GUIData::getInstance()->scView->signTrxHash(data);
+        qDebug() << "EthereumUtil::ethSign rt: " << rt;
         if(rt <= 0)     return "";
-        QPair<QString,QString> pair = SSLUtils::decodeDerSig(GUIData::getInstance()->sc->signedData.toHex());
-
+        QPair<QString,QString> pair = SSLUtils::decodeDerSig(GUIData::getInstance()->scView->getSignedData().toHex());
         for(int i : {0,1})
         {
             QString rsv = pair.first + pair.second + ((i == 0)? "00" : "01");
@@ -83,6 +84,7 @@ QString EthereumUtil::ethSign(QString data)
             if(success) return QString::fromStdString(sig.hex());
         }
     }
+    return "";
 }
 
 QString EthereumUtil::createMultisigContractCode(int requireCount, QStringList addressList)
@@ -193,4 +195,9 @@ QString EthereumUtil::createConfirmTrxData(int _index)
     params.insert(params.end(), index.begin(),index.end());
 
     return "0x" + QString::fromStdString(methodId) + QString::fromStdString( dev::toHex(params));
+}
+
+QString EthereumUtil::EthereumUtilObject::transfer(QString toAddress, QString amount, QString gasLimit, QString gasPrice, QString data, QString nonce)
+{
+    return EthereumUtil::transfer(toAddress, amount, gasLimit, gasPrice, data, nonce);
 }

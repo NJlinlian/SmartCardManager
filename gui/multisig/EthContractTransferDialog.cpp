@@ -24,7 +24,7 @@ EthContractTransferDialog::~EthContractTransferDialog()
 
 void EthContractTransferDialog::on_transferBtn_clicked()
 {
-    QString data = EthereumUtil::createContractWithdrawData(ui->toAddressLineEdit->text(), decimalToIntegerStr(ui->amountLineEdit->text(), 18));
+    QString data = EthereumUtil::createContractWithdrawData(ui->toAddressLineEdit->text(), DecimalToIntegerStr(ui->amountLineEdit->text(), 18));
 
     TransferEthDialog dialog;
     dialog.setFromAddress(GUIData::getInstance()->getCurrentAddress());

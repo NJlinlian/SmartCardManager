@@ -73,6 +73,7 @@ void TransferBtcDialog::httpReplied(QByteArray _data, int _status)
         }
         else if(fromAddress.startsWith("bitcoincash:q"))
         {
+            // BCH地址
             QJsonObject trxObject = dataObject.value("trx").toObject();
             QJsonArray trxVinArray = trxObject.value("vin").toArray();
             QVector<unsigned long long> vinAmountArray;
@@ -126,6 +127,7 @@ void TransferBtcDialog::httpReplied(QByteArray _data, int _status)
         }
         else if(fromAddress.startsWith("3") || fromAddress.startsWith("M"))
         {
+            // 3开头比特币多签地址 M开头莱特币
             // 如果是多签转账 把多签地址的script塞进vin的script
             MultisigInfoMap map = GUIData::getInstance()->readMultisigInfo(GUIData::getInstance()->currentAsset);
             MultisigInfo info = map.value(fromAddress);

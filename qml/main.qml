@@ -35,7 +35,11 @@ Window {
     }
 
     BitcoinUtil {
-        id : bitcoinUtil
+        id: bitcoinUtil
+    }
+
+    EthereumUtil {
+        id: ethereumUtil
     }
 
 
@@ -73,7 +77,7 @@ Window {
             anchors.top: parent.top
             anchors.topMargin: 60
 
-            model: ["BTC","LTC","ETH","BCH"]
+            model: ["BTC","LTC","ETH","BCH","USDT"]
 
             onActivated: {
                 $guiData.currentAsset = currentText

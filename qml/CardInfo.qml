@@ -9,11 +9,15 @@ Item {
     anchors.fill: parent
 
     TransferBtc {
-        id : transferBtcDialog
+        id: transferBtcDialog
+    }
+
+    TransferEth {
+        id: transferEthDialog
     }
 
     SignMultisigTrx {
-        id : signMultisigTrxDialog
+        id: signMultisigTrxDialog
     }
 
 
@@ -149,7 +153,14 @@ Item {
                 CustomButton {
                     id: transferBtn
                     text: qsTr("转账")
-                    onClicked: transferBtcDialog.open()
+                    onClicked: {
+                        if($guiData.currentAsset === "ETH" || $guiData.currentAsset === "USDT"){
+                            transferEthDialog.open()
+                            transferEthDialog.resetInput()
+                        }else if($guiData.currentAsset === "BTC" || $guiData.currentAsset === "LTC" || $guiData.currentAsset === "BCH") {
+                            transferBtcDialog.open()
+                        }
+                    }
                 }
 
                 CustomButton {
@@ -159,6 +170,7 @@ Item {
                     onClicked: {
                         signMultisigTrxDialog.open()
                     }
+                    visible: $guiData.isMultisigEnable($guiData.currentAsset)
                 }
             }
         }

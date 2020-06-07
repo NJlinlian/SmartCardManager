@@ -6,6 +6,7 @@
 namespace  EthereumUtil{
     QString pubkeyToAddress(QString _pubkey);
 
+    // ETH系的资产自己构造交易
     QString transfer(QString toAddress, QString amount, QString gasLimit, QString gasPrice, QString data, QString nonce);
 
     QString ethSign(QString data);
@@ -17,6 +18,20 @@ namespace  EthereumUtil{
     QString createContractTrxsData(int _index);  // 生成调用transactions(uint256)的data
     QString createGetConfirmationsData(int _index); // 生成调用getConfirmations(uint256)的data
     QString createConfirmTrxData(int _index);       // 生成调用 confirmTransaction(uint256)的data
+
+
+    // for qml
+    class EthereumUtilObject: public QObject
+    {
+        Q_OBJECT
+
+    public:
+        Q_INVOKABLE QString transfer(QString toAddress, QString amount, QString gasLimit, QString gasPrice, QString data, QString nonce);
+
+
+
+    };
+
 }
 
 

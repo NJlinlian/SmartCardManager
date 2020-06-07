@@ -400,7 +400,6 @@ void SignMultisigTrxDialog::on_signBtn_clicked()
 //        if(rt == 1)
 //        {
 //            QByteArray signatureFinal = GUIData::getInstance()->sc->signedData.append(0x01);
-//            qDebug() << "222222222222 " << signatureFinal.toHex();
 //            strList.removeFirst();
 //            strList.removeLast();
 //            MultisigInfo info = BitcoinUtil::decodeMultisigRedeemScript(redeemScriptHex);

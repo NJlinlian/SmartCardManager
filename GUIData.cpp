@@ -11,6 +11,7 @@ GUIData::GUIData()
     btcUrl = "https://chain.api.btc.com/v3";
     middlewareUrl = "http://39.108.173.165:5005/api";     // 除BCH使用
 //    middlewareUrl = "http://192.168.1.121:5005/api";      // BCH测试
+    ethWalletUrl = "127.0.0.1:60015";
 
 #ifndef VERSION_QML
     sc = new CSmartCard;
@@ -187,7 +188,7 @@ QString GUIData::getCurrentAddress()
 #endif
         address = QString::fromStdString( BitcoinUtil::get_address_by_pubkey(pubkey.toStdString(), getCurrentAssetAddressVersion()));
     }
-    else if(GUIData::getInstance()->currentAsset == "ETH")
+    else if(GUIData::getInstance()->currentAsset == "ETH" || GUIData::getInstance()->currentAsset == "USDT")
     {
 #ifndef VERSION_QML
         QByteArray pubkey = sc->readUncompressedPubKey();
@@ -208,6 +209,16 @@ QString GUIData::getCurrentAddress()
     }
 
     return address;
+}
+
+bool GUIData::isMultisigEnable(const QString &asset)
+{
+    return (asset == "BTC" || asset == "LTC");
+}
+
+QString GUIData::decimalToIntegerStr(QString number, int precision)
+{
+    return DecimalToIntegerStr(number, precision);
 }
 
 void GUIData::setCurrentAsset(const QString& _asset)
@@ -323,7 +334,7 @@ QString removeFrontZeros(QString number)     // 去掉整数最前面的0
     return number;
 }
 
-QString decimalToIntegerStr(QString number, int precision)
+QString DecimalToIntegerStr(QString number, int precision)
 {
     int pos = number.indexOf(".");
     if( pos == -1)  pos = number.size();

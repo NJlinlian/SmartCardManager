@@ -88,8 +88,8 @@ void TransferEthDialog::on_transferBtn_clicked()
     if( !isCreateContract && !isCallContract && ui->amountLineEdit->text().toDouble() <= 0)      return;
     if(ui->nonceLabel->text().isEmpty())    return;
 
-    QString amountStr = decimalToIntegerStr(ui->amountLineEdit->text(), 18);
-    QString gasPriceStr = decimalToIntegerStr(ui->gasPriceSpinBox->text(), 9);
+    QString amountStr = DecimalToIntegerStr(ui->amountLineEdit->text(), 18);
+    QString gasPriceStr = DecimalToIntegerStr(ui->gasPriceSpinBox->text(), 9);
     QString trx = EthereumUtil::transfer( isCreateContract ? "" : ui->toAddressLineEdit->text(), amountStr, ui->gasLimitLineEdit->text(),
                                                   gasPriceStr, ui->dataLineEdit->text(), ui->nonceLabel->text());
     if(trx.isEmpty())   return;

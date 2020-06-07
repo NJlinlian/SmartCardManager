@@ -128,7 +128,7 @@
 //    default:
 //        break;
 //    }
-//    qDebug() << "222222222222 " << j <<  outisz << binsz;
+//    qDebug() << "b58dec " << j <<  outisz << binsz;
 
 //    for (; j < outisz; ++j)
 //    {

@@ -22,5 +22,7 @@
         <file>qml/AddMultisig.qml</file>
         <file>qml/MultisigTransfer.qml</file>
         <file>qml/SignMultisigTrx.qml</file>
+        <file>qml/TransferEth.qml</file>
+        <file>qml/TransferToErc20.qml</file>
     </qresource>
 </RCC>

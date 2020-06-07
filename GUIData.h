@@ -57,11 +57,13 @@ public:
     QString btcUrl;
     QString getBtcUrl() const { return btcUrl;}
     QString middlewareUrl;
+    QString ethWalletUrl;
 
     QQmlListProperty<MultisigInfo> readMultisigAddresses();
 //    Q_INVOKABLE QVariantList readMultisigAddresses();
     Q_INVOKABLE QVariantMap readTest();
     QList<MultisigInfo*> mi_list;
+
 signals:
     void multisigAddressChanged();
 
@@ -72,6 +74,9 @@ public:
     unsigned char getCurrentAssetAddressVersion();
 
     Q_INVOKABLE QString getCurrentAddress();
+    Q_INVOKABLE bool isMultisigEnable(const QString& asset);
+
+    Q_INVOKABLE QString decimalToIntegerStr(QString number, int precision);
 
 signals:
     void btcUrlChanged();
@@ -102,7 +107,7 @@ unsigned long long jsonValueToULL(QJsonValue v);
 QString removeLastZeros(QString number);        // qstring::number() 对小数的处理有问题  使用std::to_string() 然后把后面的0去掉
 QString getBigNumberString(unsigned long long number,int precision);
 void tableWidgetSetItemStyle(QTableWidget* w, int alignment = Qt::AlignCenter);
-QString decimalToIntegerStr(QString number, int precision);
+QString DecimalToIntegerStr(QString number, int precision);
 QString convertPre(int old_base, int new_base, QString sourceStr);
 QString amountSetPrecision(QString amount, int precision);
 

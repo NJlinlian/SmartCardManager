@@ -55,6 +55,7 @@ void HttpManager::createTrx(const QString &fromAddress, const QString& toDictStr
 
 void HttpManager::createTrx(const QString &fromAddress, QJsonObject toDict, const QString& asset)
 {
+    // BTC系的资产通过中间件构造交易
     if(fromAddress.isEmpty() || toDict.isEmpty()) return;
     QJsonObject object;
     object.insert("jsonrpc","2.0");

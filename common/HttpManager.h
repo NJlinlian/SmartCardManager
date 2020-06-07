@@ -25,7 +25,7 @@ public:
 
     void queryMultisigBalances(QStringList addressList);
 
-    void getEthAddressNonce(const QString& address, const QString& type = "latest");
+    Q_INVOKABLE void getEthAddressNonce(const QString& address, const QString& type = "latest");
     void ethRequest(const QString& method, QJsonArray params, int id);
     void ethCall(const QString& contractAddress, const QString& data, int id = 8110);
 

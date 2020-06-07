@@ -24,16 +24,28 @@ Dialog {
         var jsonObject = JSON.parse(data)
         print(JSON.stringify(jsonObject))
         if(jsonObject["id"] === 8003) {
-
             var resultObject = jsonObject["result"]
-            print(resultObject["error_code"])
-            if(resultObject["error_code"] !== undefined) {
-                commonDialog.contentText = "广播失败"
-                commonDialog.open()
+            if($guiData.currentAsset === "ETH") {
+                var dataStr = resultObject["data"]
+                if(dataStr.slice(0,2) === "0x") {
+                    commonDialog.contentText = "交易已广播：" + dataStr
+                    commonDialog.open()
+                }
+                else {
+                    commonDialog.contentText = dataStr
+                    commonDialog.open()
+                }
             }
             else {
-                commonDialog.contentText = "交易已广播"
-                commonDialog.open()
+                print(resultObject["error_code"])
+                if(resultObject["error_code"] !== undefined) {
+                    commonDialog.contentText = "广播失败"
+                    commonDialog.open()
+                }
+                else {
+                    commonDialog.contentText = "交易已广播"
+                    commonDialog.open()
+                }
             }
         }
     }
