@@ -44,7 +44,7 @@ using namespace dev::crypto;
 
 namespace
 {
-eth_secp256k1_context const* getCtx()
+eth_secp256k1_context const* getCtx()
 {
 	static std::unique_ptr<eth_secp256k1_context, decltype(&eth_secp256k1_context_destroy)> s_ctx{
 	eth_secp256k1_context_create(ETH_SECP256K1_CONTEXT_SIGN |ETH_SECP256K1_CONTEXT_VERIFY),
@@ -206,7 +206,7 @@ Public dev::recover(Signature const& _sig, h256 const& _message)
 		return {};
 
 	auto* ctx = getCtx();
-	eth_secp256k1_ecdsa_recoverable_signature rawSig;
+    eth_secp256k1_ecdsa_recoverable_signature rawSig;
 	if (!eth_secp256k1_ecdsa_recoverable_signature_parse_compact(ctx, &rawSig, _sig.data(), v)) {
 		return {};
 	}
@@ -220,11 +220,11 @@ Public dev::recover(Signature const& _sig, h256 const& _message)
 	eth_secp256k1_ec_pubkey_serialize(
 			ctx, serializedPubkey.data(), &serializedPubkeySize,
 			&rawPubkey,ETH_SECP256K1_EC_UNCOMPRESSED
-	);
+    );
 	assert(serializedPubkeySize == serializedPubkey.size());
 	// Expect single byte header of value 0x04 -- uncompressed public key.
 	assert(serializedPubkey[0] == 0x04);
-	// Create the Public skipping the header.
+    // Create the Public skipping the header.
 	return Public{&serializedPubkey[1], Public::ConstructFromPointer};
 }
 

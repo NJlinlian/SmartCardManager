@@ -27,13 +27,12 @@ Dialog {
 
     Component.onCompleted: {
         http.httpReplied.connect(onReplied)
-        http.getEthAddressNonce($guiData.getCurrentAddress())
     }
 
     function onReplied(data, status) {
         var jsonObject = JSON.parse(data)
         if(jsonObject["id"] === 8101) {
-            print(JSON.stringify(jsonObject))
+            print("transfereth.qml",JSON.stringify(jsonObject))
             var resultStr = jsonObject["result"]
             nonceLabel.text = parseInt(resultStr)
         }

@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("$cardView", GUIData::getInstance()->scView);
 
 
+//    qDebug() << "get erc20 decimal() param code "  <<  EthereumUtil::createERC20DecimalsData();
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())

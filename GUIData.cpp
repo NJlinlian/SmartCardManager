@@ -4,6 +4,7 @@
 #include "util/bitcoin/BCHUtil.h"
 
 GUIData* GUIData::goo = nullptr;
+QVector<QString> ERCAssetsName = {"USDT"};
 GUIData::GUIData()
 {
     initSystemEnvironmentPath();
@@ -11,7 +12,8 @@ GUIData::GUIData()
     btcUrl = "https://chain.api.btc.com/v3";
     middlewareUrl = "http://39.108.173.165:5005/api";     // 除BCH使用
 //    middlewareUrl = "http://192.168.1.121:5005/api";      // BCH测试
-    ethWalletUrl = "127.0.0.1:60015";
+    ethWalletUrl = "http://127.0.0.1:60015";
+    usdtContractAddress = "0x7c5a17da1813fff2f50f13dfe48070a43fca511e";
 
 #ifndef VERSION_QML
     sc = new CSmartCard;
@@ -218,7 +220,17 @@ bool GUIData::isMultisigEnable(const QString &asset)
 
 QString GUIData::decimalToIntegerStr(QString number, int precision)
 {
-    return DecimalToIntegerStr(number, precision);
+    return ::DecimalToIntegerStr(number, precision);
+}
+
+QString GUIData::intStrSetPrecision(QString amount, int precision)
+{
+    return ::amountSetPrecision(amount, precision);
+}
+
+QString GUIData::numberStrConvertBase(int old_base, int new_base, QString sourceStr)
+{
+    return ::convertPre(old_base, new_base, sourceStr);
 }
 
 void GUIData::setCurrentAsset(const QString& _asset)

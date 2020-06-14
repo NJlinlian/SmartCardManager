@@ -23,7 +23,6 @@ Item {
     }
 
     function onReplied(data, status) {
-                print(data,status)
         var jsonObject = JSON.parse(data)
         if(jsonObject["id"] === 8001) {
             var resultObject = jsonObject["result"]
@@ -68,7 +67,6 @@ Item {
         anchors.fill: parent
 
         Component.onCompleted: {
-            print(parent.width, width)
 
         }
 
@@ -199,7 +197,6 @@ Item {
         target : commonDialog
         onClosed : {
             if(commonDialog.yesOrNo) {
-                print("ccccc", commonDialog.intData)
                 bitcoinUtil.deleteBtcMultisigAddress(listModel.get(commonDialog.intData)["address"])
                 root.update()
             }

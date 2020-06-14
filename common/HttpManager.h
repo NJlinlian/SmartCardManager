@@ -7,7 +7,6 @@
 #include <QNetworkAccessManager>
 #include <QTimer>
 
-#define ETH_RPC_URL "http://192.168.1.121:60015"
 
 class HttpManager: public QObject
 {
@@ -28,6 +27,7 @@ public:
     Q_INVOKABLE void getEthAddressNonce(const QString& address, const QString& type = "latest");
     void ethRequest(const QString& method, QJsonArray params, int id);
     void ethCall(const QString& contractAddress, const QString& data, int id = 8110);
+    Q_INVOKABLE void queryUSDTBalance(const QString& address);
 
     void queryTrx(const QString& symbol, const QString& id);
 

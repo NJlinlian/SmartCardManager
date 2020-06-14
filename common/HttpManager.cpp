@@ -73,12 +73,14 @@ void HttpManager::createTrx(const QString &fromAddress, QJsonObject toDict, cons
 void HttpManager::broadcastTrx(const QString &rawTrx, const QString& asset)
 {
     if(rawTrx.isEmpty()) return;
+    QString chain = asset.toLower();
+    if(ERCAssetsName.contains(asset))     chain = "eth";
     QJsonObject object;
     object.insert("jsonrpc","2.0");
     object.insert("id",8003);
     object.insert("method","Zchain.Trans.broadcastTrx");
     QJsonObject paramObject;
-    paramObject.insert("chainId",asset.toLower());
+    paramObject.insert("chainId",chain);
     paramObject.insert("trx", rawTrx);
     object.insert("params",paramObject);
     post(GUIData::getInstance()->middlewareUrl,QJsonDocument(object).toJson());
@@ -113,7 +115,9 @@ void HttpManager::ethRequest(const QString &method, QJsonArray params, int id)
     object.insert("id",id);
     object.insert("method",method);
     object.insert("params",params);
-    post(ETH_RPC_URL,QJsonDocument(object).toJson());
+    post(GUIData::getInstance()->ethWalletUrl,QJsonDocument(object).toJson());
+
+    qDebug() << "ethRequest:" << object;
 }
 
 void HttpManager::ethCall(const QString &contractAddress, const QString &data, int id)
@@ -128,6 +132,14 @@ void HttpManager::ethCall(const QString &contractAddress, const QString &data, i
     array.append("pending");
     ethRequest("eth_call", array, id);
 }
+
+void HttpManager::queryUSDTBalance(const QString &address)
+{
+    ethCall(GUIData::getInstance()->usdtContractAddress,
+            EthereumUtil::createERC20BalanceOfData(address),
+            8111);
+}
+
 
 void HttpManager::queryTrx(const QString &symbol, const QString &id)
 {
@@ -147,7 +159,7 @@ void HttpManager::requestFinished(QNetworkReply *reply)
     timer.stop();
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
-    qDebug() << "HttpManager statusCode: " << statusCode;
+//    qDebug() << "HttpManager statusCode: " << statusCode << reply->errorString();
 
     if(reply->error() == QNetworkReply::NoError)
     {

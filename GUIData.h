@@ -24,6 +24,7 @@ class CSmartCard;
 
 typedef QMap<QString,MultisigInfo> MultisigInfoMap;
 QString findContractAddressInMap(const MultisigInfoMap& map, QString _contractAddress);     // 返回key(创建合约的交易id)
+extern QVector<QString> ERCAssetsName;
 
 struct AddressInfoFromServer
 {
@@ -58,6 +59,7 @@ public:
     QString getBtcUrl() const { return btcUrl;}
     QString middlewareUrl;
     QString ethWalletUrl;
+    QString usdtContractAddress;
 
     QQmlListProperty<MultisigInfo> readMultisigAddresses();
 //    Q_INVOKABLE QVariantList readMultisigAddresses();
@@ -77,6 +79,8 @@ public:
     Q_INVOKABLE bool isMultisigEnable(const QString& asset);
 
     Q_INVOKABLE QString decimalToIntegerStr(QString number, int precision);
+    Q_INVOKABLE QString intStrSetPrecision(QString amount, int precision);
+    Q_INVOKABLE QString numberStrConvertBase(int old_base, int new_base, QString sourceStr);
 
 signals:
     void btcUrlChanged();

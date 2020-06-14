@@ -33,7 +33,7 @@ Dialog {
     function onReplied(data, status) {
         var jsonObject = JSON.parse(data)
         if(jsonObject["id"] === 8101) {
-            print(JSON.stringify(jsonObject))
+            print("transfererc20.qml",JSON.stringify(jsonObject))
             var resultStr = jsonObject["result"]
             nonceLabel.text = parseInt(resultStr)
         }
@@ -107,7 +107,7 @@ Dialog {
                 Layout.preferredWidth: 300
                 Layout.preferredHeight: 30
 
-                text: "21000"
+                text: "300000"
                 selectByMouse: true
             }
         }
@@ -139,28 +139,6 @@ Dialog {
             }
         }
 
-        RowLayout {
-            width: parent.width
-            Layout.preferredHeight: 30
-            Layout.leftMargin: 50
-            Layout.rightMargin: 50
-
-
-            Label {
-                Layout.preferredWidth: 80
-                text: "data"
-            }
-
-
-            TextField {
-                id: dataText
-                Layout.preferredWidth: 300
-                Layout.preferredHeight: 30
-
-                text: ""
-                selectByMouse: true
-            }
-        }
 
 
         RowLayout {
@@ -209,9 +187,12 @@ Dialog {
                     return
                 }
 
-                var trxStr = ethereumUtil.transfer(receiveAddressText.text, amountText.text, gasLimitText.text, gasPriceSpinBox.textFromValue,
-                                      dataText.text, nonceLabel.text)
+                var realAmount = $guiData.decimalToIntegerStr(amountText.text,6)
+                var realGasPrice = $guiData.decimalToIntegerStr(gasPriceSpinBox.value.toString(),9)
+                var trxStr = ethereumUtil.transferUSDT(receiveAddressText.text, realAmount, gasLimitText.text,
+                                                       realGasPrice, nonceLabel.text)
                 if(trxStr !== "") {
+                    trxStr = "0x" + trxStr
                     broadcastDialog.trxStr = trxStr
                     broadcastDialog.open()
                 }

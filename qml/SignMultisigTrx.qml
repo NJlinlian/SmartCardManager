@@ -94,7 +94,6 @@ Dialog {
 
             onClicked: {
                 var signedTrx = bitcoinUtil.signMultisigTrx($guiData.currentAsset, rawTrxText.text)
-                print("sssssss", signedTrx)
                 if(signedTrx === "") {
                     commonDialog.contentText = "签名失败"
                     commonDialog.open()

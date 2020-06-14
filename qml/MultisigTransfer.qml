@@ -32,7 +32,6 @@ Dialog {
     function onReplied(data, status) {
         var jsonObject = JSON.parse(data)
         if(jsonObject["id"] === 8002) {
-            print("jjjjjjjjjjj ", JSON.stringify(jsonObject) )
             var resultObject = jsonObject["result"]
             var dataObject = resultObject["data"]
             if(dataObject === "") {
@@ -134,7 +133,6 @@ Dialog {
                         jsonobj[listModel.get(i)["address"]] = parseFloat(listModel.get(i)["amount"])
                     }
                 }
-                print("cccccccc", fromAddress, JSON.stringify(jsonobj))
                 http.createTrx(fromAddress, JSON.stringify(jsonobj), $guiData.currentAsset)
             }
         }

@@ -80,6 +80,9 @@ QString EthereumUtil::ethSign(QString data)
             QString rsv = pair.first + pair.second + ((i == 0)? "00" : "01");
             dev::h520 sig(rsv.toStdString());
             dev::h256 toSignData(data.toStdString());
+            qDebug() << pubKeyHex;
+            qDebug() << rsv;
+            qDebug() << data;
             success = dev::verify(pub, sig, toSignData);
             if(success) return QString::fromStdString(sig.hex());
         }
@@ -197,7 +200,45 @@ QString EthereumUtil::createConfirmTrxData(int _index)
     return "0x" + QString::fromStdString(methodId) + QString::fromStdString( dev::toHex(params));
 }
 
+QString EthereumUtil::createERC20BalanceOfData(QString address)
+{
+    std::string methodId = calculateMethodId("balanceOf(address)");
+    std::vector<byte> params;
+    std::vector<byte> addressVector = dev::toBigEndian(dev::jsToU256(address.toStdString()));
+    params.insert(params.end(), addressVector.begin(), addressVector.end());
+
+    return "0x" + QString::fromStdString(methodId) + QString::fromStdString( dev::toHex(params));
+}
+
+QString EthereumUtil::createERC20DecimalsData()
+{
+    std::string methodId = calculateMethodId("decimals()");
+    return "0x" + QString::fromStdString(methodId);
+}
+
+
+QString EthereumUtil::createERC20TransferData(QString toAddress, QString amount)
+{
+    std::string methodId = calculateMethodId("transfer(address,uint256)");
+    std::vector<byte> params;
+    std::vector<byte> to = dev::toBigEndian(dev::jsToU256(toAddress.toStdString()));
+    std::vector<byte> amountVector = dev::toBigEndian(dev::jsToU256(amount.toStdString()));
+    params.insert(params.end(), to.begin(), to.end());
+    params.insert(params.end(), amountVector.begin(), amountVector.end());
+
+    return "0x" + QString::fromStdString(methodId) + QString::fromStdString( dev::toHex(params));
+}
+
+
 QString EthereumUtil::EthereumUtilObject::transfer(QString toAddress, QString amount, QString gasLimit, QString gasPrice, QString data, QString nonce)
 {
     return EthereumUtil::transfer(toAddress, amount, gasLimit, gasPrice, data, nonce);
 }
+
+QString EthereumUtil::EthereumUtilObject::transferUSDT(QString toAddress, QString amount, QString gasLimit, QString gasPrice, QString nonce)
+{
+    QString data = createERC20TransferData(toAddress,amount);
+    return transfer(GUIData::getInstance()->usdtContractAddress,
+             "0", gasLimit, gasPrice, data, nonce);
+}
+

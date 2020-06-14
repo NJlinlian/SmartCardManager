@@ -12,8 +12,16 @@ Item {
         id: transferBtcDialog
     }
 
+    TestDialog {
+        id: testDialog
+    }
+
     TransferEth {
         id: transferEthDialog
+    }
+
+    TransferToErc20 {
+        id: transferToErc20Dialog
     }
 
     SignMultisigTrx {
@@ -33,12 +41,16 @@ Item {
         addressText.text = $guiData.getCurrentAddress()
 
         if(addressText.text != "") {
-            http.queryAssetBalance(addressText.text, $guiData.currentAsset)
+            if($guiData.currentAsset === "USDT") {
+                http.queryUSDTBalance(addressText.text)
+            }
+            else {
+                http.queryAssetBalance(addressText.text, $guiData.currentAsset)
+            }
         }
     }
 
     function onReplied(data, status) {
-//        print(data,status)
         var jsonObject = JSON.parse(data)
         if(jsonObject["id"] === 8001) {
             var resultObject = jsonObject["result"]
@@ -49,13 +61,20 @@ Item {
                 balanceText.text = balance
             }
         }
+        else if(jsonObject["id"] === 8111) {
+            balance = jsonObject["result"]
+            if(balance.substr(0,2) === "0x") {
+                balance = balance.slice(2)
+            }
+            balance = $guiData.numberStrConvertBase(16,10,balance)
+            balance = $guiData.intStrSetPrecision(balance, 6)
+            balanceText.text = balance
+        }
     }
 
     HttpManager {
         id : http
     }
-
-
 
     Text {
         id: title
@@ -154,12 +173,17 @@ Item {
                     id: transferBtn
                     text: qsTr("转账")
                     onClicked: {
-                        if($guiData.currentAsset === "ETH" || $guiData.currentAsset === "USDT"){
+                        if($guiData.currentAsset === "ETH") {
                             transferEthDialog.open()
                             transferEthDialog.resetInput()
                         }else if($guiData.currentAsset === "BTC" || $guiData.currentAsset === "LTC" || $guiData.currentAsset === "BCH") {
                             transferBtcDialog.open()
+//                            testDialog.open()
+                        }else if($guiData.currentAsset === "USDT") {
+                            transferToErc20Dialog.open()
+                            transferToErc20Dialog.resetInput()
                         }
+
                     }
                 }
 

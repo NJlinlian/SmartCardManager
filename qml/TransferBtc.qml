@@ -1,13 +1,13 @@
 import QtQuick 2.0
 import QtQuick 2.11
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.4 as Controls24
 import QtQuick.Controls 1.4 as Controls14
 import QtQuick.Controls.Styles 1.4 as Styles14
 import "./controls"
 import SCM 1.0
 
-Dialog {
+Controls24.Dialog {
     id: root
     modal: true
 
@@ -30,7 +30,7 @@ Dialog {
     function onReplied(data, status) {
         var jsonObject = JSON.parse(data)
         if(jsonObject["id"] === 8002) {
-            print(JSON.stringify(jsonObject))
+            print("transferbtc.qml",JSON.stringify(jsonObject))
             var resultObject = jsonObject["result"]
             var dataObject = resultObject["data"]
             if(dataObject === "") {
@@ -66,24 +66,19 @@ Dialog {
 
         spacing: 30
 
+        ListModel {
+            id: listModel
+
+            ListElement {
+                address: ""
+                amount: ""
+            }
+        }
+
         Controls14.TableView {
             id: tableView
             width: parent.width
             height : 240
-
-
-//            style: TableViewStyle {
-//                transientScrollBars: true
-//                minimumHandleLength: 20
-//                handle: Rectangle {
-//                    implicitWidth: 14
-//                    implicitHeight: 16
-//                    radius: 6
-//                    anchors.fill: parent
-//                    color: "blue"
-//                    opacity: 0.1
-//                }
-//            }
 
             rowDelegate: Item {
                 height: 40
@@ -100,30 +95,24 @@ Dialog {
                 border.color: "grey"
                 border.width: 1
 //                color:"transparent"
-                Label {
+                Text {
                     anchors.centerIn: parent
                     text: styleData.value
                 }
-
             }
 
-            ListModel {
-                id: listModel
 
-                ListElement {
-                    address: ""
-                    amount: ""
-                }
-            }
 
             model : listModel
+
 
             Controls14.TableViewColumn {
                 role: "address"
                 title: qsTr("目标地址")
                 width: 300
 
-                delegate: ItemDelegate {
+
+                delegate: Rectangle {
                     anchors.fill: parent
                     Controls14.TextField {
                         id : textField
@@ -155,7 +144,7 @@ Dialog {
                 role: "amount"
                 title: qsTr("转出金额")
                 width: (tableView.viewport.width - 300) / 2
-                delegate: ItemDelegate {
+                delegate: Rectangle {
                     Controls14.TextField {
                         id : textField2
                         style: Styles14.TextFieldStyle {
@@ -184,8 +173,8 @@ Dialog {
                 title : ""
                 width: (tableView.viewport.width - 300) / 2
 
-                delegate: ItemDelegate {
-                    Button {
+                delegate: Rectangle {
+                    Controls24.Button {
                         id: button
                         text: "delete"
                         anchors.fill: parent

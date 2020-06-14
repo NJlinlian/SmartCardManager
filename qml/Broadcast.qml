@@ -22,14 +22,15 @@ Dialog {
 
     function onReplied(data, status) {
         var jsonObject = JSON.parse(data)
-        print(JSON.stringify(jsonObject))
         if(jsonObject["id"] === 8003) {
+            print("broadcast:", data)
             var resultObject = jsonObject["result"]
-            if($guiData.currentAsset === "ETH") {
+            if($guiData.currentAsset === "ETH" || $guiData.currentAsset === "USDT") {
                 var dataStr = resultObject["data"]
                 if(dataStr.slice(0,2) === "0x") {
                     commonDialog.contentText = "交易已广播：" + dataStr
                     commonDialog.open()
+                    close()
                 }
                 else {
                     commonDialog.contentText = dataStr
@@ -45,6 +46,7 @@ Dialog {
                 else {
                     commonDialog.contentText = "交易已广播"
                     commonDialog.open()
+                    close()
                 }
             }
         }
@@ -82,7 +84,12 @@ Dialog {
             Layout.bottomMargin: 20
             text: qsTr("广播交易")
             onClicked: {
-                http.broadcastTrx(trxStr, $guiData.currentAsset)
+                var asset = $guiData.currentAsset
+                if(asset === "USDT") {
+                    asset = "ETH"
+                }
+
+                http.broadcastTrx(trxStr, asset)
             }
         }
 
