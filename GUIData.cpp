@@ -11,7 +11,7 @@ GUIData::GUIData()
 
     btcUrl = "https://chain.api.btc.com/v3";
     middlewareUrl = "http://39.108.173.165:5005/api";     // 除BCH使用
-//    middlewareUrl = "http://192.168.1.121:5005/api";      // BCH测试
+    bchMiddlewareUrl = "http://192.168.1.121:5005/api";      // BCH测试
     ethWalletUrl = "http://127.0.0.1:60015";
     usdtContractAddress = "0x7c5a17da1813fff2f50f13dfe48070a43fca511e";
 
@@ -110,6 +110,11 @@ void GUIData::writeMultisigInfo(const MultisigInfoMap &map, const QString &asset
 
         file.close();
     }
+}
+
+QString GUIData::getMiddlewareUrl()
+{
+    return (currentAsset == "BCH") ? bchMiddlewareUrl : middlewareUrl;
 }
 
 //QVariantList GUIData::readMultisigAddresses()

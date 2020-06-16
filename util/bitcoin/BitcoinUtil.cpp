@@ -108,7 +108,7 @@ QVector<QByteArray> BitcoinUtil::deserializeScript(QByteArray script)
     int pos = 0;
     while( pos < script.size())
     {
-        int code = unsigned char(script.at(pos));
+        int code = (unsigned char)(script.at(pos));
         if(code == 0)
         {
             vector.append(QByteArray().append(char(0)));

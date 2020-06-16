@@ -210,7 +210,7 @@ bool DecodeBase58(const char *psz, std::vector<unsigned char> &vch)
             *it = carry % 256;
             carry /= 256;
         }
-        assert(carry == 0);
+//        assert(carry == 0);
         length = i;
         psz++;
     }
@@ -254,7 +254,7 @@ std::string EncodeBase58(const unsigned char *pbegin, const unsigned char *pend)
             carry /= 58;
         }
 
-        assert(carry == 0);
+//        assert(carry == 0);
         length = i;
         pbegin++;
     }

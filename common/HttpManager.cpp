@@ -45,7 +45,7 @@ void HttpManager::queryAssetBalance(const QString &address, const QString &asset
     paramObject.insert("chainId",asset);
     paramObject.insert("addr",address);
     object.insert("params",paramObject);
-    post(GUIData::getInstance()->middlewareUrl,QJsonDocument(object).toJson());
+    post(GUIData::getInstance()->getMiddlewareUrl(),QJsonDocument(object).toJson());
 }
 
 void HttpManager::createTrx(const QString &fromAddress, const QString& toDictStr, const QString &asset)
@@ -66,7 +66,7 @@ void HttpManager::createTrx(const QString &fromAddress, QJsonObject toDict, cons
     paramObject.insert("from_addr",fromAddress);
     paramObject.insert("dest_info",toDict);
     object.insert("params",paramObject);
-    post(GUIData::getInstance()->middlewareUrl,QJsonDocument(object).toJson());
+    post(GUIData::getInstance()->getMiddlewareUrl(),QJsonDocument(object).toJson());
     qDebug() << "createTrx: " << QJsonDocument(object).toJson();
 }
 
@@ -83,7 +83,7 @@ void HttpManager::broadcastTrx(const QString &rawTrx, const QString& asset)
     paramObject.insert("chainId",chain);
     paramObject.insert("trx", rawTrx);
     object.insert("params",paramObject);
-    post(GUIData::getInstance()->middlewareUrl,QJsonDocument(object).toJson());
+    post(GUIData::getInstance()->getMiddlewareUrl(),QJsonDocument(object).toJson());
 }
 
 void HttpManager::queryMultisigBalances(QStringList addressList)
@@ -105,7 +105,7 @@ void HttpManager::getEthAddressNonce(const QString &address, const QString &type
     paramObject.insert("addr", address);
     paramObject.insert("indexFormat", type);
     object.insert("params",paramObject);
-    post(GUIData::getInstance()->middlewareUrl,QJsonDocument(object).toJson());
+    post(GUIData::getInstance()->getMiddlewareUrl(),QJsonDocument(object).toJson());
 }
 
 void HttpManager::ethRequest(const QString &method, QJsonArray params, int id)
@@ -151,7 +151,7 @@ void HttpManager::queryTrx(const QString &symbol, const QString &id)
     paramObject.insert("chainId",symbol.toLower());
     paramObject.insert("trxid", id);
     object.insert("params",paramObject);
-    post(GUIData::getInstance()->middlewareUrl,QJsonDocument(object).toJson());
+    post(GUIData::getInstance()->getMiddlewareUrl(),QJsonDocument(object).toJson());
 }
 
 void HttpManager::requestFinished(QNetworkReply *reply)

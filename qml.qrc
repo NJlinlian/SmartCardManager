@@ -24,6 +24,5 @@
         <file>qml/SignMultisigTrx.qml</file>
         <file>qml/TransferEth.qml</file>
         <file>qml/TransferToErc20.qml</file>
-        <file>qml/TestDialog.qml</file>
     </qresource>
 </RCC>

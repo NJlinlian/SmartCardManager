@@ -57,7 +57,7 @@ public:
 
     QString btcUrl;
     QString getBtcUrl() const { return btcUrl;}
-    QString middlewareUrl;
+    QString getMiddlewareUrl();
     QString ethWalletUrl;
     QString usdtContractAddress;
 
@@ -92,6 +92,8 @@ public slots:
 private:
     GUIData();
     static GUIData* goo;
+    QString middlewareUrl;
+    QString bchMiddlewareUrl;
 
     void initSystemEnvironmentPath();
 

@@ -221,6 +221,10 @@ Public dev::recover(Signature const& _sig, h256 const& _message)
 			ctx, serializedPubkey.data(), &serializedPubkeySize,
 			&rawPubkey,ETH_SECP256K1_EC_UNCOMPRESSED
     );
+    cout << "rawPubkey:" << int(rawPubkey.data[0]) << " "  << int(rawPubkey.data[1]) <<" " << int(rawPubkey.data[2])  << endl;
+    cout << "serializedPubkey:" << serializedPubkey.size() << " " << int(serializedPubkey[0])
+            << " " << int(serializedPubkey[1])  << " "  << int(serializedPubkey[2])  << endl;
+
 	assert(serializedPubkeySize == serializedPubkey.size());
 	// Expect single byte header of value 0x04 -- uncompressed public key.
 	assert(serializedPubkey[0] == 0x04);
@@ -256,8 +260,8 @@ bool dev::verify(Public const& _p, Signature const& _s, h256 const& _hash)
 {
 	// TODO: Verify w/o recovery (if faster).
 	if (!_p)
-		return false;
-	return _p == recover(_s, _hash);
+        return false;
+    return _p == recover(_s, _hash);
 }
 
 bytesSec dev::pbkdf2(string const& _pass, bytes const& _salt, unsigned _iterations, unsigned _dkLen)

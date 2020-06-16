@@ -55,8 +55,8 @@ Label {
             enabled: parent.copyMenuEnabled
             Action {
                 //% "Copy"
-                text: qsTrId("general-copy")
-                icon.source: "qrc:/assets/icon-copy.svg"
+                text: qsTrId("copy")
+//                icon.source: "qrc:/assets/copy.svg"
                 enabled: parent.enabled && parent.copyMenuEnabled
                 onTriggered: parent.copyText()
             }

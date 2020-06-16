@@ -12,9 +12,6 @@ Item {
         id: transferBtcDialog
     }
 
-    TestDialog {
-        id: testDialog
-    }
 
     TransferEth {
         id: transferEthDialog
@@ -121,6 +118,7 @@ Item {
                     text: ""
                     font.pixelSize: 14
                     Layout.leftMargin: 30
+                    selectByMouse: true
                 }
             }
 
@@ -141,6 +139,7 @@ Item {
                     text: ""
                     font.pixelSize: 14
                     Layout.leftMargin: 30
+                    selectByMouse: true
                 }
             }
 
@@ -161,6 +160,7 @@ Item {
                     text: "0.00"
                     font.pixelSize: 14
                     Layout.leftMargin: 30
+                    selectByMouse: true
                 }
             }
 

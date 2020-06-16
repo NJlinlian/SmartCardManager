@@ -75,12 +75,13 @@ QString EthereumUtil::ethSign(QString data)
         qDebug() << "EthereumUtil::ethSign rt: " << rt;
         if(rt <= 0)     return "";
         QPair<QString,QString> pair = SSLUtils::decodeDerSig(GUIData::getInstance()->scView->getSignedData().toHex());
-        for(int i : {0,1})
+        for(int i : {1,0})      // 感觉1的成功率高?，放前面，也有可能是错觉
         {
             QString rsv = pair.first + pair.second + ((i == 0)? "00" : "01");
             dev::h520 sig(rsv.toStdString());
             dev::h256 toSignData(data.toStdString());
-            qDebug() << pubKeyHex;
+            qDebug() << i;
+            qDebug() << "pubKeyHex:" << pubKeyHex;
             qDebug() << rsv;
             qDebug() << data;
             success = dev::verify(pub, sig, toSignData);
@@ -121,7 +122,7 @@ std::vector<byte> strTo32Size(QString str)
     int i = 0;
     for(; i < ba.size(); i++)
     {
-        result.push_back( unsigned char(ba.at(i)));
+        result.push_back( (unsigned char)(ba.at(i)));
     }
 
     while (i < 32) {
